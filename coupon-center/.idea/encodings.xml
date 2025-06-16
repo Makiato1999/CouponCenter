@@ -50,11 +50,15 @@
     <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-domain/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-impl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-impl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-impl/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-impl/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-trigger/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-trigger/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/coupon-template-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/coupon-template-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-types/coupon-template-service-types-types/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-types/coupon-template-service-types-types/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-types/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/coupon-template-service/coupon-template-service-types/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/middleware/middleware-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/middleware/middleware-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/middleware/middleware-app/src/main/java" charset="UTF-8" />

@@ -25,7 +25,7 @@ import java.util.Date;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "coupon_template")
-public class CouponTemplate implements Serializable {
+public class CouponTemplateEntity implements Serializable {
     /**
      * 这里我要补充一点，其实JPA也支持一对多、多对多的级联关系（ManyToOne、OneToOne等注解），
      * 但是你发现我并没有在项目中使用，原因是这些注解背后有很多隐患。

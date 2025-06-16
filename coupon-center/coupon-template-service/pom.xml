@@ -16,7 +16,6 @@
         <module>coupon-template-service-api</module>
         <module>coupon-template-service-dao</module>
         <module>coupon-template-service-impl</module>
-        <module>coupon-template-service-types</module>
     </modules>
 
     <properties>

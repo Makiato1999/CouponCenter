@@ -20,6 +20,14 @@
         <option value="$PROJECT_DIR$/coupon-template-service/coupon-template-service-app/pom.xml" />
         <option value="$PROJECT_DIR$/coupon-template-service/coupon-template-service-domain/pom.xml" />
         <option value="$PROJECT_DIR$/coupon-template-service/coupon-template-service-trigger/pom.xml" />
+        <option value="$PROJECT_DIR$/coupon-template-service/coupon-template-service-types/coupon-template-service-types-types/pom.xml" />
+        <option value="$PROJECT_DIR$/coupon-template-service/coupon-template-service-types/pom.xml" />
+        <option value="$PROJECT_DIR$/middleware/middleware-api/pom.xml" />
+        <option value="$PROJECT_DIR$/middleware/middleware-app/pom.xml" />
+        <option value="$PROJECT_DIR$/middleware/middleware-domain/pom.xml" />
+        <option value="$PROJECT_DIR$/middleware/middleware-infrastructure/pom.xml" />
+        <option value="$PROJECT_DIR$/middleware/middleware-trigger/pom.xml" />
+        <option value="$PROJECT_DIR$/middleware/middleware-types/pom.xml" />
       </set>
     </option>
   </component>

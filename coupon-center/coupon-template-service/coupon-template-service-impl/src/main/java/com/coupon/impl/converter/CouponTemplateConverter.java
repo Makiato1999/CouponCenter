@@ -1,9 +1,10 @@
 package com.coupon.impl.converter;
 
 import com.coupon.api.beans.CouponTemplateInfo;
+import com.coupon.dao.entity.CouponTemplateEntity;
 
 public class CouponTemplateConverter {
-    public static CouponTemplateInfo convertToTemplateInfo(com.coupon.dao.entity.CouponTemplate template) {
+    public static CouponTemplateInfo convertToTemplateInfo(CouponTemplateEntity template) {
 
         return CouponTemplateInfo.builder()
                 .id(template.getId())

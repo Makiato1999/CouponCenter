@@ -5,7 +5,7 @@ import com.coupon.api.beans.PagedCouponTemplateInfo;
 import com.coupon.api.beans.TemplateSearchParams;
 import com.coupon.api.enums.CouponType;
 import com.coupon.dao.CouponTemplateDao;
-import com.coupon.dao.entity.CouponTemplate;
+import com.coupon.dao.entity.CouponTemplateEntity;
 import com.coupon.impl.converter.CouponTemplateConverter;
 import com.coupon.impl.service.intf.CouponTemplateService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,7 +46,7 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
         }
 
         // 创建优惠券
-        CouponTemplate template = CouponTemplate.builder()
+        CouponTemplateEntity template = CouponTemplateEntity.builder()
                 .name(request.getName())
                 .description(request.getDesc())
                 .category(CouponType.convert(request.getType()))
@@ -68,10 +67,10 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
     @Override
     public CouponTemplateInfo cloneTemplate(Long templateId) {
         log.info("cloning template id {}", templateId);
-        CouponTemplate source = templateDao.findById(templateId)
+        CouponTemplateEntity source = templateDao.findById(templateId)
                 .orElseThrow(() -> new IllegalArgumentException("invalid template ID"));
 
-        CouponTemplate target = new CouponTemplate();
+        CouponTemplateEntity target = new CouponTemplateEntity();
         BeanUtils.copyProperties(source, target);
 
         target.setAvailable(true);
@@ -89,7 +88,7 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
      */
     @Override
     public PagedCouponTemplateInfo search(TemplateSearchParams request) {
-        CouponTemplate example = CouponTemplate.builder()
+        CouponTemplateEntity example = CouponTemplateEntity.builder()
                 .shopId(request.getShopId())
                 .category(CouponType.convert(request.getType()))
                 .available(request.getAvailable())
@@ -99,7 +98,7 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
         // 构造分页参数对象
         Pageable page = PageRequest.of(request.getPage(), request.getPageSize());
         // 发起分页查询
-        Page<CouponTemplate> result = templateDao.findAll(Example.of(example), page);
+        Page<CouponTemplateEntity> result = templateDao.findAll(Example.of(example), page);
         // 这是 JPA 的分页 + 条件查询，非常简洁：
         // 用 Example 做 where 条件
         // 用 Pageable 做分页
@@ -119,18 +118,62 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
         return response;
     }
 
+    public List<CouponTemplateInfo> searchTemplate(CouponTemplateInfo request) {
+        CouponTemplateEntity example = CouponTemplateEntity.builder()
+                .shopId(request.getShopId())
+                .category(CouponType.convert(request.getType()))
+                .available(request.getAvailable())
+                .name(request.getName())
+                .build();
+        // 可以用下面的方式做分页查询
+//        Pageable page = PageRequest.of(0, 100);
+//        templateDao.findAll(Example.of(example), page);
+        List<CouponTemplateEntity> result = templateDao.findAll(Example.of(example));
+        return result.stream()
+                .map(CouponTemplateConverter::convertToTemplateInfo)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 通过ID查询优惠券模板
+     */
     @Override
     public CouponTemplateInfo loadTemplateInfo(Long id) {
-        return null;
+        Optional<CouponTemplateEntity> template = templateDao.findById(id);
+        return template.isPresent() ? CouponTemplateConverter.convertToTemplateInfo(template.get()) : null;
     }
 
+    /**
+     * 将券无效化
+     */
     @Override
     public void deleteTemplate(Long id) {
-
+        int rows = templateDao.makeCouponUnavailable(id);
+        if (rows == 0) {
+            throw new IllegalArgumentException("Template Not Found: " + id);
+        }
     }
 
+    /**
+     * 批量读取模板
+     *
+     * 根据一批优惠券模板 ID，批量从数据库查询这些模板，
+     * 并返回 Map<模板ID, CouponTemplateInfo>，方便快速按 ID 查找模板信息。
+     */
     @Override
     public Map<Long, CouponTemplateInfo> getTemplateInfoMap(Collection<Long> ids) {
-        return null;
+//        List<CouponTemplateEntity> templates = templateDao.findAllById(ids);
+//
+//        return templates.stream()
+//                .map(CouponTemplateConverter::convertToTemplateInfo)
+//                .collect(Collectors.toMap(CouponTemplateInfo::getId, Function.identity()));
+        List<CouponTemplateEntity> templates = templateDao.findAllById(ids);
+        Map<Long, CouponTemplateInfo> result = new HashMap<>();
+
+        for (CouponTemplateEntity entity : templates) {
+            CouponTemplateInfo info = CouponTemplateConverter.convertToTemplateInfo(entity);
+            result.put(info.getId(), info);
+        }
+        return result;
     }
 }

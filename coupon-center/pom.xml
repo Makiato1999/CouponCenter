@@ -18,7 +18,6 @@
         <module>coupon-calculation-service</module>
         <module>coupon-customer-service</module>
         <module>middleware</module>
-        <module>coupon-template-service/coupon-template-service-types</module>
     </modules>
 
     <properties>

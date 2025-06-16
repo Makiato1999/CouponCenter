@@ -1,0 +1,40 @@
+# 项目的启动端口
+server:
+  port: 20000
+  error:
+    include-message: always
+
+spring:
+  application:
+    # 定义项目名称
+    name: coupon-template-service
+  datasource:
+    # mysql数据源
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:13306/coupon_center_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: Retail_HikariCP
+      minimum-idle: 15 #最小空闲连接数量
+      idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+      maximum-pool-size: 25 #连接池最大连接数，默认是10
+      auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+      connection-test-query: SELECT 1
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    show-sql: true
+    hibernate:
+      # 在生产环境全部为none，防止ddl结构被自动执行
+      ddl-auto: none
+    # 在日志中打印经过格式化的SQL语句
+    properties:
+      hibernate.format_sql: true
+      hibernate.show_sql: true
+    open-in-view: false
+
+logging:
+  level:
+    com.broadview.coupon: debug
