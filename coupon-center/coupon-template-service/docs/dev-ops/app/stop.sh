@@ -1,1 +1,0 @@
-docker stop coupon-template-service

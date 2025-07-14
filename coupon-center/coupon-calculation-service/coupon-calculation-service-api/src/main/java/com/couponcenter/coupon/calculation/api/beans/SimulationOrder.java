@@ -11,24 +11,20 @@ import com.couponcenter.coupon.template.api.beans.CouponInfo;
 
 import java.util.List;
 
-// 封装了订单信心
+// 试算最优的优惠券
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCart {
+public class SimulationOrder {
 
     @NotEmpty
     private List<Product> products;
 
-    private Long couponId;
+    @NotEmpty
+    private List<Long> couponIDs;
 
-    private long cost;
-
-    // 目前只支持单张优惠券
-    // 但是为了以后的扩展考虑，你可以添加多个优惠券的计算逻辑
     private List<CouponInfo> couponInfos;
 
     @NotNull
     private Long userId;
-
 }
