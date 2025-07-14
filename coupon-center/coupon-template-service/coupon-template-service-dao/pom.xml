@@ -2,9 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.coupon</groupId>
+        <groupId>com.couponcenter</groupId>
         <artifactId>coupon-template-service</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>coupon-template-service-dao</artifactId>
@@ -18,7 +19,7 @@
         <!-- DAO层理论上不应该依赖API层，我这里懒省事儿用了一套POJO从前到后传递 -->
         <!-- 正确的做法是dao层定义自己的DTO，然后上层用一个converter再转化成API里的类 -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.couponcenter</groupId>
             <artifactId>coupon-template-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
