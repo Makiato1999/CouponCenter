@@ -1,10 +1,11 @@
-package com.couponcenter.coupon.calculation.controller;
+package com.couponcenter.coupon.calculation.impl.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.couponcenter.coupon.calculation.api.beans.ShoppingCart;
 import com.couponcenter.coupon.calculation.api.beans.SimulationOrder;
 import com.couponcenter.coupon.calculation.api.beans.SimulationResponse;
-import com.couponcenter.coupon.calculation.controller.service.intf.CouponCalculationService;
+import com.couponcenter.coupon.calculation.impl.controller.service.intf.CouponCalculationService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

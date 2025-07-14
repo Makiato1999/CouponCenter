@@ -1,4 +1,4 @@
-package com.couponcenter.coupon.calculation.controller.service.intf;
+package com.couponcenter.coupon.calculation.impl.controller.service.intf;
 
 import com.couponcenter.coupon.calculation.api.beans.ShoppingCart;
 import com.couponcenter.coupon.calculation.api.beans.SimulationOrder;

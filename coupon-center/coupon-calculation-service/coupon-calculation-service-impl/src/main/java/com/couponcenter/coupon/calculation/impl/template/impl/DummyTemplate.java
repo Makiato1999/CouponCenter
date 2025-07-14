@@ -1,8 +1,9 @@
-package com.couponcenter.coupon.calculation.template.impl;
+package com.couponcenter.coupon.calculation.impl.template.impl;
 
 import com.couponcenter.coupon.calculation.api.beans.ShoppingCart;
-import com.couponcenter.coupon.calculation.template.AbstractRuleTemplate;
-import com.couponcenter.coupon.calculation.template.RuleTemplate;
+import com.couponcenter.coupon.calculation.impl.template.AbstractRuleTemplate;
+import com.couponcenter.coupon.calculation.impl.template.RuleTemplate;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

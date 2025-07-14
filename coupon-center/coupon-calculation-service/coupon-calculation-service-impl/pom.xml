@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>coupon-calculation-impl</artifactId>
+    <artifactId>coupon-calculation-service-impl</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -19,14 +19,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>coupon-template-api</artifactId>
+            <groupId>com.couponcenter</groupId>
+            <artifactId>coupon-template-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>coupon-calculation-api</artifactId>
+            <groupId>com.couponcenter</groupId>
+            <artifactId>coupon-calculation-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

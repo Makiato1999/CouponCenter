@@ -1,4 +1,4 @@
-package com.couponcenter.coupon.calculation.template;
+package com.couponcenter.coupon.calculation.impl.template;
 
 import com.couponcenter.coupon.calculation.api.beans.ShoppingCart;
 

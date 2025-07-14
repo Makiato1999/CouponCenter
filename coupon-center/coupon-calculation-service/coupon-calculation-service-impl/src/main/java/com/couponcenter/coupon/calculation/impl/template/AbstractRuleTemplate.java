@@ -1,4 +1,4 @@
-package com.couponcenter.coupon.calculation.template;
+package com.couponcenter.coupon.calculation.impl.template;
 
 import com.couponcenter.coupon.calculation.api.beans.ShoppingCart;
 import com.couponcenter.coupon.calculation.api.beans.Product;
@@ -46,7 +46,7 @@ public abstract class AbstractRuleTemplate implements RuleTemplate {
             return order;
         }
 
-        // 子类中计算新的价格
+        // 子类中实现calculateNewPrice计算新的价格
         Long newCost = calculateNewPrice(orderTotalAmount, shopTotalAmount, quota);
         // 订单价格不能小于最低价格
         if (newCost < minCost()) {
