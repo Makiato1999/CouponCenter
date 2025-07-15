@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0
+    container_name: coupon-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: couponcenter_coupon_db
+      MYSQL_USER: coupon
+      MYSQL_PASSWORD: coupon123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/NacosConfig.sql:/docker-entrypoint-initdb.d/01-NacosConfig.sql
+      - ./sql/CouponCenterDB.sql:/docker-entrypoint-initdb.d/02-CouponCenterDB.sql
+    networks:
+      - coupon-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Nacos注册中心和配置中心
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    container_name: coupon-nacos
+    environment:
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=root123
+      - NACOS_AUTH_ENABLE=true
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+      - NACOS_AUTH_IDENTITY_KEY=serverIdentity
+      - NACOS_AUTH_IDENTITY_VALUE=security
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      - mysql
+    networks:
+      - coupon-network
+    volumes:
+      - nacos_data:/home/nacos/data
+      - nacos_logs:/home/nacos/logs
+
+  # 优惠券模板服务
+  coupon-template-service:
+    build:
+      context: ./coupon-center
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: coupon-template-service
+    container_name: coupon-template-service
+    ports:
+      - "20000:20000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NACOS_SERVER_ADDR=nacos:8848
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=couponcenter_coupon_db
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root123
+    depends_on:
+      - nacos
+      - mysql
+    networks:
+      - coupon-network
+    restart: unless-stopped
+
+  # 优惠券客户服务
+  coupon-customer-service:
+    build:
+      context: ./coupon-center
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: coupon-customer-service
+    container_name: coupon-customer-service
+    ports:
+      - "20001:20001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NACOS_SERVER_ADDR=nacos:8848
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=couponcenter_coupon_db
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root123
+    depends_on:
+      - nacos
+      - mysql
+    networks:
+      - coupon-network
+    restart: unless-stopped
+
+  # 优惠券计算服务
+  coupon-calculation-service:
+    build:
+      context: ./coupon-center
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: coupon-calculation-service
+    container_name: coupon-calculation-service
+    ports:
+      - "20002:20002"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - NACOS_SERVER_ADDR=nacos:8848
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=couponcenter_coupon_db
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root123
+    depends_on:
+      - nacos
+      - mysql
+    networks:
+      - coupon-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  nacos_data:
+  nacos_logs:
+
+networks:
+  coupon-network:
+    driver: bridge 
