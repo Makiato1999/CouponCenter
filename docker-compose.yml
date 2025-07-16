@@ -7,18 +7,24 @@ services:
     container_name: coupon-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: couponcenter_coupon_db
-      MYSQL_USER: coupon
-      MYSQL_PASSWORD: coupon123
+      # 这里设置为 nacos_config，因为这是 Nacos 必需的
+      MYSQL_DATABASE: nacos_config
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./sql/NacosConfig.sql:/docker-entrypoint-initdb.d/01-NacosConfig.sql
-      - ./sql/CouponCenterDB.sql:/docker-entrypoint-initdb.d/02-CouponCenterDB.sql
+      # 先执行 Nacos 的数据库初始化
+      - ./sql/nacos_config.sql:/docker-entrypoint-initdb.d/01-nacos_config.sql
+      # 再执行业务数据库的初始化
+      - ./sql/couponcenter_coupon_db.sql:/docker-entrypoint-initdb.d/02-couponcenter_coupon_db.sql
     networks:
       - coupon-network
     command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   # Nacos注册中心和配置中心
   nacos:
@@ -40,7 +46,8 @@ services:
       - "8848:8848"
       - "9848:9848"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - coupon-network
     volumes:
