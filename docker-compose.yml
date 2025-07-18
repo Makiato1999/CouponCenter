@@ -14,9 +14,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       # 先执行 Nacos 的数据库初始化
-      - ./sql/nacos_config.sql:/docker-entrypoint-initdb.d/01-nacos_config.sql
+      - ./sql/nacos/mysql-schema.sql:/docker-entrypoint-initdb.d/01-nacos_config.sql
       # 再执行业务数据库的初始化
-      - ./sql/couponcenter_coupon_db.sql:/docker-entrypoint-initdb.d/02-couponcenter_coupon_db.sql
+      - ./sql/business/couponcenter_coupon_db.sql:/docker-entrypoint-initdb.d/02-couponcenter_coupon_db.sql
     networks:
       - coupon-network
     command: --default-authentication-plugin=mysql_native_password
