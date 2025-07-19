@@ -1,6 +1,5 @@
 package com.couponcenter.coupon.customer.api.beans;
 
-import com.couponcenter.coupon.template.api.beans.CouponTemplateInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
