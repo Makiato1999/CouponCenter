@@ -29,14 +29,14 @@ CREATE TABLE IF NOT EXISTS `couponcenter_coupon_db`.`coupon` (
   KEY `idx_template_id` (`template_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='领到手的优惠券';
 
--- 插入 coupon_template 测试数据
-INSERT INTO `couponcenter_coupon_db`.`coupon_template` (`available`, `name`, `description`, `type`, `shop_id`, `created_time`, `rule`) VALUES
-(true, '满减优惠券', '满100减10元', '满减', NULL, '2023-01-01 10:00:00', '{"discount": {"quota": 10, "base": 100}}'),
-(true, '折扣优惠券', '全场8折', '折扣', 1, '2023-01-02 11:00:00', '{"discount": {"quota": 20, "base": 100}}'),
-(true, '随机立减券', '随机立减1-5元', '立减', 2, '2023-01-03 12:00:00', '{"discount": {"quota": 5, "base": 1}}');
+-- -- 插入 coupon_template 测试数据
+-- INSERT INTO `couponcenter_coupon_db`.`coupon_template` (`available`, `name`, `description`, `type`, `shop_id`, `created_time`, `rule`) VALUES
+-- (true, '满减优惠券', '满100减10元', '满减', NULL, '2023-01-01 10:00:00', '{"discount": {"quota": 10, "base": 100}}'),
+-- (true, '折扣优惠券', '全场8折', '折扣', 1, '2023-01-02 11:00:00', '{"discount": {"quota": 20, "base": 100}}'),
+-- (true, '随机立减券', '随机立减1-5元', '立减', 2, '2023-01-03 12:00:00', '{"discount": {"quota": 5, "base": 1}}');
 
--- 插入 coupon 测试数据
-INSERT INTO `couponcenter_coupon_db`.`coupon` (`template_id`, `user_id`, `created_time`, `status`, `shop_id`) VALUES
-(1, 10001, '2023-01-05 09:00:00', 0, NULL),
-(2, 10002, '2023-01-06 10:00:00', 1, 1),
-(3, 10003, '2023-01-07 11:00:00', 0, 2);
+-- -- 插入 coupon 测试数据
+-- INSERT INTO `couponcenter_coupon_db`.`coupon` (`template_id`, `user_id`, `created_time`, `status`, `shop_id`) VALUES
+-- (1, 10001, '2023-01-05 09:00:00', 0, NULL),
+-- (2, 10002, '2023-01-06 10:00:00', 1, 1),
+-- (3, 10003, '2023-01-07 11:00:00', 0, 2);

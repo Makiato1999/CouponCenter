@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.core.env.Environment;
+
 @Slf4j
 @RestController
 @RequestMapping("/template")
@@ -22,6 +24,9 @@ public class CouponTemplateController {
 
     @Autowired
     private CouponTemplateService couponTemplateService;
+
+    @Autowired
+    private Environment environment;
 
     // 创建优惠券
     @PostMapping("/addTemplate")
@@ -39,6 +44,11 @@ public class CouponTemplateController {
     // 读取优惠券
     @GetMapping("/getTemplate")
     public CouponTemplateInfo getTemplate(@RequestParam("id") Long id){
+        // 获取本实例 metadata
+        String trafficVersion = environment.getProperty("spring.cloud.nacos.discovery.metadata.traffic-version");
+        int port = Integer.parseInt(environment.getProperty("server.port"));
+        log.info("getTemplate called, id={}, port={}, trafficVersion={}", id, port, trafficVersion);
+        
         log.info("Load template, id={}", id);
         return couponTemplateService.loadTemplateInfo(id);
     }

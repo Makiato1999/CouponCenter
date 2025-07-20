@@ -24,7 +24,9 @@ public class CouponCustomerController {
     private CouponCustomerService customerService;
 
     @PostMapping("requestCoupon")
-    public Coupon requestCoupon(@Valid @RequestBody RequestCoupon request) {
+    public Coupon requestCoupon(@Valid @RequestBody RequestCoupon request,
+    @RequestHeader(value = "traffic-version", required = false) String trafficVersion) {
+        request.setTrafficVersion(trafficVersion);
         return customerService.requestCoupon(request);
     }
 

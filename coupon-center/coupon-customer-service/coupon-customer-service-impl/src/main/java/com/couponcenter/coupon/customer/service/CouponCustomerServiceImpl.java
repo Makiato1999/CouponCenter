@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         order.setCouponInfos(couponInfos);
 
         return webClientBuilder.build().post()
-                .uri("http://coupon-calculation-serv/calculator/simulate")
+                .uri("http://coupon-calculation-service/calculator/simulate")
                 .bodyValue(order)
                 .retrieve()
                 .bodyToMono(SimulationResponse.class)
@@ -102,7 +103,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
 
         // 发起请求批量查询券模板
         Map<Long, CouponTemplateInfo> templateMap = webClientBuilder.build().get()
-                .uri("http://coupon-template-serv/template/getBatch?ids=" + templateIds)
+                .uri("http://coupon-template-service/template/getBatch?ids=" + templateIds)
                 .retrieve()
                 // 设置返回值类型
                 .bodyToMono(new ParameterizedTypeReference<Map<Long, CouponTemplateInfo>>() {})
@@ -123,12 +124,13 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         CouponTemplateInfo templateInfo = webClientBuilder.build()
                 // 声明了这是一个GET方法
                 .get()
-                .uri("http://coupon-template-serv/template/getTemplate?id=" + request.getCouponTemplateId())
+                .uri("http://coupon-template-service/template/getTemplate?id=" + request.getCouponTemplateId())
+                // 将流量标记传入WebClient请求的Header中
                 .header(TRAFFIC_VERSION, request.getTrafficVersion())
                 .retrieve()
                 .bodyToMono(CouponTemplateInfo.class)
                 .block();
-
+        
         // 模板不存在则报错
         if (templateInfo == null) {
             log.error("invalid template id={}", request.getCouponTemplateId());
@@ -191,7 +193,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
 
         // order清算
         ShoppingCart checkoutInfo = webClientBuilder.build().post()
-                .uri("http://coupon-calculation-serv/calculator/checkout")
+                .uri("http://coupon-calculation-service/calculator/checkout")
                 .bodyValue(order)
                 .retrieve()
                 .bodyToMono(ShoppingCart.class)
@@ -214,7 +216,7 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
 
     private CouponTemplateInfo loadTemplateInfo(Long templateId) {
         return webClientBuilder.build().get()
-                .uri("http://coupon-template-serv/template/getTemplate?id=" + templateId)
+                .uri("http://coupon-template-service/template/getTemplate?id=" + templateId)
                 .retrieve()
                 .bodyToMono(CouponTemplateInfo.class)
                 .block();
